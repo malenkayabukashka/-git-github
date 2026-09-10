@@ -603,3 +603,34 @@ git status
 git log –-oneline  
 git log --stat -1  
 
+Обсуждение файла .gitignore на StackOverflow: https://ru.stackoverflow.com/questions/474556/Что-должно-и-не-должно-быть-в-gitignore-для-любого-языка-и-ide  
+Документация по файлу .gitignore: https://git-scm.com/docs/gitignore  
+Статья на тему: https://uleming.github.io/gitbook/4_Игнорирование_файлов.html  
+
+форсированное добавление
+*(это редкий сценарий)*
+touch debug.log  
+ls  
+git status  
+
+*принудительно добавляем в индекс файл debug.log*
+git add -f debug.log  
+git status  
+git commit -m "force adding debug.log"  
+git status  
+git log --oneline  
+
+
+глобальные настройки  
+*указываем глобальную настройку для пути к файлу .gitignore*  
+git config --global core.excludesfile ~/.gitignore_global  
+*создаем сам файл по указанному пути*
+touch ~/.gitignore_global  
+nano ~/.gitignore_global  
+  *.tmp  
+ls  
+git status  
+
+создаем тестовый файл (должен игнорироваться)  
+touch tempfile.tmp  
+git status  
