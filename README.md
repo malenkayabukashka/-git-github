@@ -481,15 +481,15 @@ git shortlog --since="2012-01-01" --until="2012-12-31"
 Команда git reflog показывает журнал всех перемещений указателя HEAD и ссылок в репозитории, позволяя восстановить потерянные коммиты.  
 Команда git gc выполняет сборку мусора в репозитории: удаляет неиспользуемые объекты и оптимизирует хранилище.  
 
-*вывод reference log отображает только локальную историю*  
+вывод reference log отображает только локальную историю  
 git reflog  
 
-*перемещение в другой репозиторий и вывод аналогичной информации о нем*
+перемещение в другой репозиторий и вывод аналогичной информации о нем
 cd ../hellogitworld  
 pwd  
 git reflog  
 
-*Сценарий использования: Восстановление удаленного коммита*  
+Сценарий использования: Восстановление удаленного коммита  
 git reflog  
 git log --oneline  
 git reset --hard HEAD~1  
@@ -498,7 +498,7 @@ git reflog
 git reset --hard 10f7044  
 git log –oneline  
 
-*Сценарий использования: Удаление старых записей*  
+Сценарий использования: Удаление старых записей  
 git reflog  
 git reflog expire --expire=7.days --all --verbose  
 git reflog  
@@ -506,9 +506,100 @@ git reflog
 git reflog expire --expire=1.minutes --all –-verbose  
 git reflog  
 
-*запуск сборщика мусора Git*  
+запуск сборщика мусора Git  
 git gc  
 <img width="626" height="562" alt="image" src="https://github.com/user-attachments/assets/07a6b0b2-a970-4707-bb40-87eb20ada37a" />
 
+**Игнорирование файлов**
+Файл .gitignore определяет шаблоны файлов и директорий, которые Git должен игнорировать и не отслеживать.  
+простой пример
+*создадим лог-файл*  
+touch events.log  
 
+*проверим статус файлов*  
+git status  
+
+*создадим файл для настроек игнора*
+nano .gitignore  
+
+*добавим в этот файл имя игнорируемого файла*  
+ events.log  
+
+*снова проверим статус файлов*  
+git status  
+
+*добавим все изменения в индекс*  
+git add .  
+
+*снова проверим статус файлов*
+git status  
+
+*сделаем новый коммит*  
+git commit -m "add .gitignore file"  
+
+*проверим список коммитов*  
+git log --oneline  
+
+
+шаблоны (*, ?)
+*создадим еще пару файлов с логами*
+touch events_123.log e_123123.log  
+
+*проверим, что они появились*  
+ls  
+
+*проверим гит-статус*  
+git status  
+
+*откроем файл .gitignore, чтобы добавить в него новый шаблон*
+nano .gitignore  
+ *.log  
+ 
+*снова проверим гит-статус*
+git status  
+
+*добавим все изменения в индекс*
+git add .  
+git status  
+
+*добавим новые изменения в прошлый коммит*
+git commit --amend --no-edit  
+git status  
+git log --oneline  
+
+
+игнор папки
+*создадим новую папку с указанным именем*
+mkdir logs  
+
+*переместим все файлы с расширением 'log' в эту папку*  
+mv *.log logs  
+ls  
+ls logs/  
+git status  
+
+*откроем файл .gitignore, чтобы добавить в него новый шаблон*  
+nano .gitignore  
+  logs/*  
+git status  
+git add .  
+git status  
+git commit --amend --no-edit  
+git log --oneline  
+git status  
+ls  
+
+отмена игнора (“!”)*
+touch rare_critical_errors.log  
+ls  
+git status  
+nano .gitignore  
+  !rare_critical_errors.log  
+git status  
+git add .  
+git status  
+git commit --amend --no-edit  
+git status  
+git log –-oneline  
+git log --stat -1  
 
