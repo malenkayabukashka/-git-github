@@ -399,7 +399,7 @@ git show 0e47d61..ca3a6b1
 git diff 0e47d61..ca3a6b1  
 git diff 0e47d61 ca3a6b1  
 
-*аналогичные команды - просмотр изменений файла в определённом коммите*
+*аналогичные команды - просмотр изменений файла в определённом коммите*  
 git show HEAD~1:styles/styles.css  
 git diff HEAD~1 css/styles.css  
 
@@ -409,3 +409,106 @@ git show 55f77dc --name-only
 
 *вывести только список файлов, измененных с указанного коммита и до текущего состояния репозитория* 
 git diff 55f77dc --name-only  
+
+**История коммитов**
+Команда git log показывает историю коммитов в текущей ветке.  
+Команда git shortlog группирует коммиты по авторам и показывает сокращенную историю изменений.  
+*базовое использование команды просмотра логов*  
+git log  
+
+*просмотр логов в кратком формате*  
+git log --oneline  
+
+*вызов справки по команде*
+git log --help  
+
+*вывод статистики по коммитам*  
+git log --stat	 
+
+*просмотр патчей (деталей каждого изменения) по коммитам*  
+git log -p  
+
+*ограничение количества комитов в выводе*  
+git log -4  
+
+*опции можно сочетать в одной команде*  
+git log –-stat -p  
+git log -4 --stat -p  
+
+*отображение веток в истории коммитов*  
+git log --graph  
+
+*клонирование нового репозитория в отдельной папке*
+cd ..  
+git clone https://github.com/githubtraining/hellogitworld  
+cd hellogitworld  
+ls –a  
+
+*использование изученных команд в новом репозитории*  
+git status  
+git log  
+git log --oneline  
+git log --oneline README.txt  
+git log --stat	
+git log --graph  
+
+*фильтр коммитов по автору*  
+git log --author="Jordan McCullough" –-oneline  
+
+*форматирование: дата, автор, время, сообщение*
+git log -5 --pretty=format:"%h - %an - %as - %s"  
+git log -5 --pretty=format:"%h - %an - %as %n >> %s"  
+
+*читабельное предложение с помощью форматирования*
+git log --pretty=format:"This guy:%cn committed with hash '%h' on %cd"  
+
+*компактный отчёт о коммитах в репозитории группирует коммиты по авторам и выводит список их имён вместе с количеством сделанных ими коммитов и краткими описаниями этих коммитов*  
+git shortlog  
+
+*показывает электронную почту автора рядом с его именем*
+git shortlog -e  
+
+*сортирует вывод по количеству коммитов, от большего к меньшему*
+git shortlog -n  
+
+*выводит только статистику (количество коммитов) без списка сообщений коммитов*  
+git shortlog -s  
+
+*фильтрация коммитов по датам "до" и "после"*  
+git shortlog --since="2012-01-01" --until="2012-12-31"  
+
+**Машина времени (изменение истории)**
+Команда git reflog показывает журнал всех перемещений указателя HEAD и ссылок в репозитории, позволяя восстановить потерянные коммиты.  
+Команда git gc выполняет сборку мусора в репозитории: удаляет неиспользуемые объекты и оптимизирует хранилище.  
+
+*вывод reference log отображает только локальную историю*  
+git reflog  
+
+*перемещение в другой репозиторий и вывод аналогичной информации о нем*
+cd ../hellogitworld  
+pwd  
+git reflog  
+
+*Сценарий использования: Восстановление удаленного коммита*  
+git reflog  
+git log --oneline  
+git reset --hard HEAD~1  
+git log --oneline  
+git reflog  
+git reset --hard 10f7044  
+git log –oneline  
+
+*Сценарий использования: Удаление старых записей*  
+git reflog  
+git reflog expire --expire=7.days --all --verbose  
+git reflog  
+
+git reflog expire --expire=1.minutes --all –-verbose  
+git reflog  
+
+*запуск сборщика мусора Git*  
+git gc  
+<img width="626" height="562" alt="image" src="https://github.com/user-attachments/assets/07a6b0b2-a970-4707-bb40-87eb20ada37a" />
+
+
+
